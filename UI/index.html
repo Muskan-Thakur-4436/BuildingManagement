@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Building Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f6fc;
+        }
+
+        /* Top bar */
+        .top-bar {
+            background: #0b3d91;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .top-bar input, .top-bar select {
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .top-bar button {
+            padding: 7px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #ffd166;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 100%;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .edit-btn {
+            background: #ffd166;
+            border: none;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .room-card {
+            border: 2px solid #d1d9e6;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .room-info {
+            padding-right: 10px;
+        }
+
+        .room-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .delete-btn {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .room-card:hover {
+            transform: translateY(-3px);
+            border-color: #0b3d91;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .heating {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .cooling {
+            background: #2ec4b6;
+            color: white;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+        }
+
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .app-header {
+            background: linear-gradient(90deg, #0b3d91, #1f8ef1);
+            color: white;
+            padding: 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid #0b3d91;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        .app-header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        .modal-content button {
+            width: 48%;
+            padding: 8px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-add {
+            background: #0b3d91;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #e63946;
+            color: white;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="app-header">
+    <h1>Building Management</h1>
+</div>
+<div class="top-bar">
+    Requested Temperature:
+    <input type="number" id="requestedTemp" value="25">
+    <button onclick="updateBuildingTemp()">Update</button>
+
+    <select id="roomType">
+        <option value="apartment">Apartment</option>
+        <option value="gym">Gym</option>
+        <option value="library">Library</option>
+        <option value="laundry">Laundry</option>
+    </select>
+
+    <button onclick="openModal()">Add</button>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h3>Rooms</h3>
+        <div id="rooms" class="rooms-grid"></div>
+    </div>
+</div>
+
+<div class="modal" id="roomModal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Add Room</h3>
+        <div id="apartmentFields">
+            <input type="number" id="aptNumber" placeholder="Apartment Number">
+            <input type="text" id="ownerName" placeholder="Owner Name">
+        </div>
+
+        <div id="commonRoomFields" style="display:none;">
+            <input type="text" id="roomName" placeholder="Room Name">
+        </div>
+
+        <button class="btn-add" onclick="saveRoom()">Save</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
